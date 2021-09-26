@@ -17,7 +17,12 @@ browser.storage.local.get().then(settings => {
                 body: deactivating ? null : document.URL
             }
 
+
             listeners.forEach(url => {
+                // Relative url shenanigans doesn't work until you put a / at the end of the url
+                if (!url.endsWith('/')) {
+                    url = url.concat('/')
+                }
                 fetch(new URL(deactivating ? id : "", url), options)
                     .then(response => {
                         console.log(`Hooked ${e}`)
